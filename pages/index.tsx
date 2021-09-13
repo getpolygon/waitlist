@@ -7,10 +7,8 @@ import {
   Link,
   Stack,
   chakra,
-  useColorMode,
 } from "@chakra-ui/react";
 import Head from "next/head";
-import { useEffect } from "react";
 import splitbee from "@splitbee/web";
 import { SiGoogleanalytics } from "react-icons/si";
 import type { GetStaticProps, NextPage } from "next";
@@ -18,7 +16,7 @@ import type { GetStaticProps, NextPage } from "next";
 export const getStaticProps: GetStaticProps = async () => {
   const { SPLITBEE_TOKEN: token, NODE_ENV: env } = process.env;
 
-  if (env !== "production") {
+  if (env === "production") {
     splitbee.init({
       token,
       disableCookie: true,
@@ -33,12 +31,6 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const Home: NextPage = () => {
-  const { colorMode, setColorMode } = useColorMode();
-
-  useEffect(() => {
-    if (colorMode !== "dark") setColorMode("dark");
-  }, []);
-
   return (
     <>
       <Head>
