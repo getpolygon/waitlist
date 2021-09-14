@@ -12,7 +12,7 @@ const JoinedWaitlist = () => {
     >
       <Center>
         <Text fontFamily={"ubuntu"} fontSize={["md", "lg", "xl"]}>
-          Congrats 🎉, you have joined our waitlist
+          Congrats 🎉, you now are in our waitlist!
         </Text>
       </Center>
     </Box>

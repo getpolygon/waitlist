@@ -9,6 +9,7 @@ import {
   InputLeftElement,
   Icon,
   Text,
+  Box,
 } from "@chakra-ui/react";
 import { View } from "../pages";
 import { IoMail } from "react-icons/io5";
@@ -27,6 +28,7 @@ const JoinWaitlistForm = ({
 }) => {
   const toast = useToast({
     duration: 5000,
+    position: "bottom",
   });
   const {
     register,
@@ -52,11 +54,14 @@ const JoinWaitlistForm = ({
         message: string;
       };
 
-      setError("email", { message: jsonResponse.message });
+      if (response.status !== 500) {
+        setError("email", { message: jsonResponse.message });
+      }
+
       return toast({
         status: "error",
+        title: "There was an error",
         description: jsonResponse.message,
-        title: "Can not join the waitlist",
       });
     } else {
       localStorage.joined = true;
@@ -70,59 +75,65 @@ const JoinWaitlistForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(joinWaitlist)}>
-      <Stack>
-        <Text fontFamily={"ubuntu"} fontSize={["md", "lg"]}>
-          Want to stay up to date? Join our waitlist!
-        </Text>
+    <Box>
+      <form onSubmit={handleSubmit(joinWaitlist)}>
+        <Stack>
+          <Box>
+            <Text fontFamily={"ubuntu"} fontSize={["md", "lg"]}>
+              Want to stay up to date? You can join our waitlist too!
+            </Text>
+            <Text fontSize={"xs"}>No spam, no bullshit</Text>
+          </Box>
 
-        <Stack direction={["column", "row"]}>
-          <FormControl isInvalid={errors.email && true}>
-            <InputGroup>
-              <InputLeftElement
-                h={"full"}
-                alignItems={"center"}
-                justifyContent={"center"}
-              >
-                <Icon
-                  as={IoMail}
-                  fontSize={"xl"}
-                  color={"gray.600"}
-                  pointerEvents={"none"}
+          <Stack direction={["column", "row"]}>
+            <FormControl maxW={"sm"} isInvalid={errors.email && true}>
+              <InputGroup>
+                <InputLeftElement
+                  h={"full"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  <Icon
+                    as={IoMail}
+                    fontSize={"xl"}
+                    color={"gray.600"}
+                    pointerEvents={"none"}
+                  />
+                </InputLeftElement>
+
+                <Input
+                  size={"lg"}
+                  id={"email"}
+                  type={"email"}
+                  {...register("email", {
+                    pattern: email,
+                    required: true,
+                  })}
+                  placeholder={"john@doe.org"}
                 />
-              </InputLeftElement>
+              </InputGroup>
 
-              <Input
-                size={"lg"}
-                type={"email"}
-                {...register("email", {
-                  pattern: email,
-                  required: true,
-                })}
-                placeholder={"john@doe.org"}
-              />
-            </InputGroup>
+              <FormErrorMessage fontFamily={"ubuntu"}>
+                {(errors.email && errors.email.message) ||
+                  "Please enter a valid email address"}
+              </FormErrorMessage>
+            </FormControl>
 
-            <FormErrorMessage fontFamily={"ubuntu"}>
-              {(errors.email && errors.email.message) ||
-                "Please enter a valid email address"}
-            </FormErrorMessage>
-          </FormControl>
-
-          <Button
-            m={8}
-            size={"lg"}
-            type={"submit"}
-            isLoading={submitting}
-            bgColor={"purple.400"}
-            colorScheme={"purple"}
-            disabled={errors.email && true}
-          >
-            Join the waitlist
-          </Button>
+            <Button
+              m={12}
+              size={"lg"}
+              type={"submit"}
+              isLoading={submitting}
+              bgColor={"purple.400"}
+              colorScheme={"purple"}
+              disabled={errors.email && true}
+            >
+              Join
+            </Button>
+          </Stack>
         </Stack>
-      </Stack>
-    </form>
+      </form>
+    </Box>
   );
 };
 
