@@ -6,6 +6,7 @@ import { collection, getDocs } from "firebase/firestore";
 import type { GetServerSideProps, NextPage } from "next";
 import { Box, Flex, Text, Stack } from "@chakra-ui/react";
 
+import Links from "../components/Links";
 import { fst as firestore } from "../utils/firebase";
 import JoinedWaitlist from "../components/JoinedWaitlist";
 import WaitlistCounter from "../components/WaitlistCounter";
@@ -100,6 +101,8 @@ const Home: NextPage<Props> = ({ count, joined: __joined }) => {
             ) : (
               <JoinWaitlistForm setJoined={setJoined} />
             )}
+
+            <Links />
           </Stack>
         </Box>
       </Flex>
