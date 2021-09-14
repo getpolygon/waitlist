@@ -3,9 +3,9 @@
   "private": true,
   "scripts": {
     "lint": "next lint",
-    "build": "next build",
     "dev": "yarn migrator up && next dev",
     "start": "yarn migrator up && next start",
+    "build": "yarn migrator up && next build",
     "migrator": "node tools/migrator/index.js"
   },
   "dependencies": {
