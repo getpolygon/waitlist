@@ -1,17 +1,11 @@
-import {
-  Box,
-  Center,
-  Flex,
-  Text,
-  Button,
-  Link,
-  Stack,
-  chakra,
-} from "@chakra-ui/react";
 import Head from "next/head";
-import splitbee from "@splitbee/web";
 import type { NextPage } from "next";
-import { SiGoogleanalytics } from "react-icons/si";
+import splitbee from "@splitbee/web";
+import JoinedWaitlist from "../components/JoinedWaitlist";
+import { Box, Flex, Text, Stack } from "@chakra-ui/react";
+import JoinedWaitlistForm from "../components/JoinWaitlistForm";
+import { useEffect, useState } from "react";
+import JoinWaitlistForm from "../components/JoinWaitlistForm";
 
 splitbee.init({
   disableCookie: true,
@@ -20,20 +14,21 @@ splitbee.init({
 
 splitbee.track("Visits");
 
+export type View = "JoinedWaitlist" | "JoinWaitlist";
+
 const Home: NextPage = () => {
+  const [view, setView] = useState<View>("JoinWaitlist");
+
+  useEffect(() => {
+    typeof window !== "undefined" &&
+      JSON.parse(localStorage.joined || null) === true &&
+      setView("JoinedWaitlist");
+  }, []);
+
   return (
     <>
       <Head>
         <title>Polygon — Coming Soon</title>
-        <link rel={"preload preconnect"} href={"https://fonts.gstatic.com"} />
-        <link
-          rel={"preload preconnect"}
-          href={"https://fonts.googleapis.com"}
-        />
-        <link
-          rel={"stylesheet"}
-          href={"https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"}
-        />
         <meta
           name={"description"}
           content={
@@ -42,76 +37,34 @@ const Home: NextPage = () => {
         />
       </Head>
 
-      <Box h={"100vh"} w={"full"}>
-        <Flex h={"full"} alignItems={"center"} justifyContent={"center"}>
-          <Box
-            p={4}
-            m={8}
-            rounded={"2xl"}
-            boxShadow={"xl"}
-            userSelect={"none"}
-            border={"3px solid"}
-            bgColor={"gray.800"}
-            borderColor={"purple.400"}
-          >
-            <Stack spacing={4}>
-              <Center>
-                <Text
-                  color={"purple.400"}
-                  fontFamily={"ubuntu"}
-                  fontSize={["4xl", "5xl", "6xl"]}
-                >
-                  polygon
-                </Text>
-              </Center>
+      <Flex p={4} h={"100vh"} alignItems={"center"} justifyContent={"center"}>
+        <Box maxW={"xl"}>
+          <Stack spacing={8}>
+            <Box userSelect={"none"}>
+              <Text
+                fontSize={"6xl"}
+                color={"purple.400"}
+                fontFamily={"ubuntu"}
+                fontWeight={"semibold"}
+                // fontSize={["2xl", "4xl", "6xl"]}
+              >
+                Polygon
+              </Text>
 
-              <Center>
-                <Box maxW={"lg"}>
-                  <Text
-                    textAlign={"center"}
-                    fontFamily={"ubuntu"}
-                    fontSize={["sm", "lg", "xl"]}
-                  >
-                    <chakra.span color={"purple.400"}>New</chakra.span>,{" "}
-                    <chakra.span color={"purple.400"}>modern</chakra.span>, and{" "}
-                    <chakra.span color={"purple.400"}>private</chakra.span>{" "}
-                    social network that is not hungry for your data and personal
-                    life, coming soon.
-                  </Text>
-                </Box>
-              </Center>
+              <Text fontFamily={"ubuntu"} fontSize={"lg"}>
+                A new, modern and private social network that is not hungry for
+                your data. Coming soon.
+              </Text>
+            </Box>
 
-              <Stack mt={4}>
-                <Center>
-                  <Link
-                    target={"_blank"}
-                    rel={"noreferrer noopener"}
-                    href={"https://app.splitbee.io/public/polygon.am"}
-                  >
-                    <Button
-                      size={"sm"}
-                      colorScheme={"yellow"}
-                      leftIcon={<SiGoogleanalytics />}
-                    >
-                      Splitbee analytics
-                    </Button>
-                  </Link>
-                </Center>
-
-                <Center userSelect={"none"}>
-                  <Text
-                    fontSize={"sm"}
-                    color={"gray.500"}
-                    fontWeight={"semibold"}
-                  >
-                    &copy; Polygon 2021
-                  </Text>
-                </Center>
-              </Stack>
-            </Stack>
-          </Box>
-        </Flex>
-      </Box>
+            {view === "JoinWaitlist" ? (
+              <JoinWaitlistForm setView={setView} />
+            ) : (
+              <JoinedWaitlist />
+            )}
+          </Stack>
+        </Box>
+      </Flex>
     </>
   );
 };
