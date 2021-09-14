@@ -27,6 +27,7 @@ const handler: NextApiHandler = async (req, res) => {
               .status(200)
               .json(Response(Status.ERR, "Email is already registered"));
 
+          console.error(error);
           return res
             .status(500)
             .json(Response(Status.ERR, "There was an error"));
