@@ -46,15 +46,15 @@ const Home: NextPage<Props> = ({ count, joined: __joined }) => {
   return (
     <>
       <Head>
-        <title>Polygon</title>
-        <meta name="title" content="Polygon" />
+        <title>Polygon — Coming Soon</title>
+        <meta name="title" content="Polygon — Coming Soon" />
         <meta
           name="description"
           content="A new, modern, and private social network that is not hungry for your data"
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Polygon" />
+        <meta property="og:title" content="Polygon — Coming Soon" />
         <meta property="og:url" content="https://polygon.am/" />
         <meta property="og:image" content="https://polygon.am/banner.png" />
         <meta
@@ -64,7 +64,7 @@ const Home: NextPage<Props> = ({ count, joined: __joined }) => {
 
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://polygon.am/" />
-        <meta property="twitter:title" content="Polygon" />
+        <meta property="twitter:title" content="Polygon — Coming Soon" />
         <meta
           property="twitter:description"
           content="A new, modern, and private social network that is not hungry for your data"
