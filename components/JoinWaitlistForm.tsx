@@ -52,16 +52,16 @@ const JoinWaitlistForm = ({
         status: "OK" | "ERR";
         message: string;
       };
-
       if (response.status !== 500) {
         setError("email", { message: jsonResponse.message });
       }
-
-      return toast({
-        status: "error",
-        title: "There was an error",
-        description: jsonResponse.message,
-      });
+      if (response.status === 500) {
+        return toast({
+          status: "error",
+          title: "There was an error",
+          description: jsonResponse.message,
+        });
+      }
     } else {
       setJoined(true);
       return toast({
@@ -74,7 +74,12 @@ const JoinWaitlistForm = ({
 
   return (
     <Box>
-      <form onSubmit={handleSubmit(joinWaitlist)}>
+      <form
+        autoCorrect={"off"}
+        autoComplete={"off"}
+        autoCapitalize={"off"}
+        onSubmit={handleSubmit(joinWaitlist)}
+      >
         <Stack>
           <Box>
             <Text fontFamily={"ubuntu"} fontSize={["md", "lg"]}>

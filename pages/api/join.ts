@@ -2,10 +2,11 @@ import { serialize } from "cookie";
 import { NextApiHandler } from "next";
 import { fst as firestore } from "../../utils/firebase";
 import Response, { Status } from "../../utils/Response";
-import { collection, addDoc } from "firebase/firestore";
 import { email as emailPattern } from "../../utils/patterns";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
 const { NODE_ENV: env } = process.env;
+const collectionName = env === "production" ? "waitlist" : "waitlist-dev";
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
@@ -18,20 +19,32 @@ const handler: NextApiHandler = async (req, res) => {
     } else {
       if (emailPattern.exec(email)) {
         try {
-          await addDoc(
-            collection(
-              firestore,
-              env === "production" ? "waitlist" : "waitlist-dev"
-            ),
-            {
-              email,
-            }
+          // Checking if another entry with this email exists
+          const existingDocQuery = query(
+            collection(firestore, collectionName),
+            where("email", "==", email)
           );
+          const existingDocSnap = await getDocs(existingDocQuery);
 
-          return res
-            .status(200)
-            .setHeader("Set-Cookie", serialize("joined", "true", { path: "/" }))
-            .json(Response(Status.OK, "Successfully joined the waitlist"));
+          // If there is an entry with this email
+          if (existingDocSnap.size === 1) {
+            return res
+              .status(403)
+              .json(Response(Status.OK, "This email was already registered"));
+          } else {
+            // Add the document to firestore
+            await addDoc(collection(firestore, collectionName), {
+              email,
+            });
+
+            return res
+              .status(200)
+              .setHeader(
+                "Set-Cookie",
+                serialize("joined", "true", { path: "/" })
+              )
+              .json(Response(Status.OK, "Successfully joined the waitlist"));
+          }
         } catch (error) {
           console.error(error);
 

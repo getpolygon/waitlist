@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 };
 
 const Home: NextPage<Props> = ({ count, joined: __joined }) => {
-  const [_, setJoined] = useState<boolean>(__joined);
+  const [joined, setJoined] = useState<boolean>(__joined);
 
   return (
     <>
@@ -95,7 +95,7 @@ const Home: NextPage<Props> = ({ count, joined: __joined }) => {
 
             <WaitlistCounter count={count} />
 
-            {__joined ? (
+            {joined ? (
               <JoinedWaitlist />
             ) : (
               <JoinWaitlistForm setJoined={setJoined} />
