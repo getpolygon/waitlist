@@ -11,7 +11,6 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
-import { View } from "../pages";
 import { IoMail } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { email } from "../utils/patterns";
@@ -22,9 +21,9 @@ type WaitlistFormFields = {
 };
 
 const JoinWaitlistForm = ({
-  setView,
+  setJoined,
 }: {
-  setView: Dispatch<SetStateAction<View>>;
+  setJoined: Dispatch<SetStateAction<boolean>>;
 }) => {
   const toast = useToast({
     duration: 5000,
@@ -64,8 +63,7 @@ const JoinWaitlistForm = ({
         description: jsonResponse.message,
       });
     } else {
-      localStorage.joined = true;
-      setView("JoinedWaitlist");
+      setJoined(true);
       return toast({
         status: "success",
         title: "Thank you 🥳",
@@ -82,7 +80,7 @@ const JoinWaitlistForm = ({
             <Text fontFamily={"ubuntu"} fontSize={["md", "lg"]}>
               Want to stay up to date? You can join our waitlist too!
             </Text>
-            <Text fontSize={"xs"}>No spam, no bullshit</Text>
+            <Text fontSize={"xs"}></Text>
           </Box>
 
           <Stack direction={["column", "row"]}>

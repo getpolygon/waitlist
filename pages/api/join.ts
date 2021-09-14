@@ -1,8 +1,11 @@
+import { serialize } from "cookie";
 import { NextApiHandler } from "next";
 import { fst as firestore } from "../../utils/firebase";
 import Response, { Status } from "../../utils/Response";
 import { collection, addDoc } from "firebase/firestore";
 import { email as emailPattern } from "../../utils/patterns";
+
+const { NODE_ENV: env } = process.env;
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
@@ -15,13 +18,19 @@ const handler: NextApiHandler = async (req, res) => {
     } else {
       if (emailPattern.exec(email)) {
         try {
-          // Insert the new email to the waitlist table
-          await addDoc(collection(firestore, "waitlist"), {
-            email,
-          });
+          await addDoc(
+            collection(
+              firestore,
+              env === "production" ? "waitlist" : "waitlist-dev"
+            ),
+            {
+              email,
+            }
+          );
 
           return res
             .status(200)
+            .setHeader("Set-Cookie", serialize("joined", "true", { path: "/" }))
             .json(Response(Status.OK, "Successfully joined the waitlist"));
         } catch (error) {
           console.error(error);

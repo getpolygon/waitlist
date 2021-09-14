@@ -1,45 +1,46 @@
 import Head from "next/head";
+import { useState } from "react";
+import cookies from "next-cookies";
 import splitbee from "@splitbee/web";
-import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import type { GetServerSideProps, NextPage } from "next";
-import { Box, Flex, Text, Stack, chakra } from "@chakra-ui/react";
+import { Box, Flex, Text, Stack } from "@chakra-ui/react";
 
 import { fst as firestore } from "../utils/firebase";
 import JoinedWaitlist from "../components/JoinedWaitlist";
-import JoinWaitlistForm from "../components/JoinWaitlistForm";
 import WaitlistCounter from "../components/WaitlistCounter";
+import JoinWaitlistForm from "../components/JoinWaitlistForm";
+
+const { NEXT_PUBLIC_SPLITBEE_TOKEN: splitbeeToken } = process.env;
 
 splitbee.init({
   disableCookie: true,
-  token: process.env.NEXT_PUBLIC_SPLITBEE_TOKEN,
+  token: splitbeeToken,
 });
 
 splitbee.track("Visits");
 
-export type View = "JoinedWaitlist" | "JoinWaitlist";
-
 type Props = {
   count: number;
+  joined: boolean;
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const { size: count } = await getDocs(collection(firestore, "waitlist"));
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  const { joined } = cookies(ctx);
+  const { NODE_ENV: env } = process.env;
+  const { size: count } = await getDocs(
+    collection(firestore, env === "production" ? "waitlist" : "waitlist-dev")
+  );
   return {
     props: {
       count,
+      joined: JSON.parse((joined as any) || false),
     },
   };
 };
 
-const Home: NextPage<Props> = ({ count }) => {
-  const [view, setView] = useState<View>("JoinWaitlist");
-
-  useEffect(() => {
-    typeof window !== "undefined" &&
-      JSON.parse(localStorage.joined || null) === true &&
-      setView("JoinedWaitlist");
-  }, []);
+const Home: NextPage<Props> = ({ count, joined: __joined }) => {
+  const [_, setJoined] = useState<boolean>(__joined);
 
   return (
     <>
@@ -94,10 +95,10 @@ const Home: NextPage<Props> = ({ count }) => {
 
             <WaitlistCounter count={count} />
 
-            {view === "JoinWaitlist" ? (
-              <JoinWaitlistForm setView={setView} />
-            ) : (
+            {__joined ? (
               <JoinedWaitlist />
+            ) : (
+              <JoinWaitlistForm setJoined={setJoined} />
             )}
           </Stack>
         </Box>
