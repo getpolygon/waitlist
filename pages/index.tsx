@@ -75,7 +75,16 @@ const Home: NextPage<Props> = ({ count, joined: __joined }) => {
         />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={""} />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin={""}
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
+          rel="preload"
+          as="font"
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
           rel="stylesheet"
