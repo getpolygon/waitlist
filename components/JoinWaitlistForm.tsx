@@ -89,7 +89,7 @@ const JoinWaitlistForm = ({
           </Box>
 
           <Stack direction={["column", "row"]}>
-            <FormControl maxW={"sm"} isInvalid={errors.email && true}>
+            <FormControl maxW={["full", "sm"]} isInvalid={errors.email && true}>
               <InputGroup>
                 <InputLeftElement
                   h={"full"}

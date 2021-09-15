@@ -47,47 +47,53 @@ const Home: NextPage<Props> = ({ count, joined: __joined }) => {
     <>
       <Head>
         <title>Polygon — Coming Soon</title>
-        <meta name="title" content="Polygon — Coming Soon" />
+        <meta name={"title"} content={"Polygon — Coming Soon"} />
         <meta
-          name="description"
-          content="A new, modern, and private social network that is not hungry for your data"
+          name={"description"}
+          content={
+            "A new, modern, and private social network that is not hungry for your data"
+          }
         />
 
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Polygon — Coming Soon" />
-        <meta property="og:url" content="https://polygon.am/" />
-        <meta property="og:image" content="https://polygon.am/banner.png" />
+        <meta property={"og:type"} content={"website"} />
+        <meta property={"og:url"} content={"https://polygon.am/"} />
+        <meta property={"og:title"} content={"Polygon — Coming Soon"} />
+        <meta property={"og:image"} content={"https://polygon.am/banner.png"} />
         <meta
-          property="og:description"
-          content="A new, modern, and private social network that is not hungry for your data"
+          property={"og:description"}
+          content={
+            "A new, modern, and private social network that is not hungry for your data"
+          }
         />
 
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://polygon.am/" />
-        <meta property="twitter:title" content="Polygon — Coming Soon" />
+        <meta property={"twitter:url"} content={"https://polygon.am/"} />
+        <meta property={"twitter:card"} content={"summary_large_image"} />
+        <meta property={"twitter:title"} content={"Polygon — Coming Soon"} />
         <meta
-          property="twitter:description"
-          content="A new, modern, and private social network that is not hungry for your data"
+          property={"twitter:description"}
+          content={
+            "A new, modern, and private social network that is not hungry for your data"
+          }
         />
         <meta
-          property="twitter:image"
-          content="https://polygon.am/banner.png"
+          property={"twitter:image"}
+          content={"https://polygon.am/banner.png"}
         />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel={"preconnect"} href={"https://fonts.googleapis.com"} />
         <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
           crossOrigin={""}
+          rel={"preconnect"}
+          href={"https://fonts.gstatic.com"}
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
-          rel="preload"
-          as="font"
+          as={"font"}
+          rel={"preload"}
+          href={"https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"}
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
-          rel="stylesheet"
+          rel={"stylesheet"}
+          href={"https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"}
         />
       </Head>
 
