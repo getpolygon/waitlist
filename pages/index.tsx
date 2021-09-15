@@ -73,6 +73,13 @@ const Home: NextPage<Props> = ({ count, joined: __joined }) => {
           property="twitter:image"
           content="https://polygon.am/banner.png"
         />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={""} />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
+          rel="stylesheet"
+        />
       </Head>
 
       <Flex p={4} h={"100vh"} alignItems={"center"} justifyContent={"center"}>
