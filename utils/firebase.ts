@@ -20,4 +20,4 @@ const config: FirebaseOptions = {
 };
 
 export const app = initializeApp(config);
-export const fst = getFirestore(app);
+export const firestore = getFirestore(app);

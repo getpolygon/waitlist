@@ -1,6 +1,6 @@
 import { serialize } from "cookie";
 import { NextApiHandler } from "next";
-import { fst as firestore } from "../../utils/firebase";
+import { firestore } from "../../utils/firebase";
 import Response, { Status } from "../../utils/Response";
 import { email as emailPattern } from "../../utils/patterns";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";

@@ -1,28 +1,42 @@
-import { Box, Stack, Link, Center, Text } from "@chakra-ui/react";
+import type { LinkProps } from "@chakra-ui/react";
+import { Box, Stack, Link, Center } from "@chakra-ui/react";
+
+type Link = {
+  href: string;
+  description: string;
+  target: LinkProps["target"];
+};
+
+const links: Link[] = [
+  {
+    target: "_blank",
+    description: "Website Analytics",
+    href: "https://app.splitbee.io/public/polygon.am",
+  },
+  {
+    target: "_blank",
+    description: "Support email",
+    href: "mailto:support@polygon.am",
+  },
+];
 
 const Links = () => {
   return (
     <Box>
       <Center>
         <Stack direction={"row"}>
-          <Link
-            target={"_blank"}
-            color={"blue.400"}
-            textDecor={"underline"}
-            rel={"noreferrer noopener"}
-            href={"https://app.splitbee.io/public/polygon.am"}
-          >
-            Website Analytics
-          </Link>
-          <Link
-            target={"_blank"}
-            color={"blue.400"}
-            textDecor={"underline"}
-            rel={"noreferrer noopener"}
-            href={"mailto:welcome@polygon.am"}
-          >
-            Support Email
-          </Link>
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              color={"blue.400"}
+              target={link.target}
+              textDecor={"underline"}
+              rel={"noreferrer noopener"}
+            >
+              {link.description}
+            </Link>
+          ))}
         </Stack>
       </Center>
     </Box>
