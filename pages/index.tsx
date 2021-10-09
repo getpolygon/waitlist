@@ -7,7 +7,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import { Box, Flex, Text, Stack } from "@chakra-ui/react";
 
 import Links from "../components/Links";
-import { fst as firestore } from "../utils/firebase";
+import { firestore } from "../utils/firebase";
 import JoinedWaitlist from "../components/JoinedWaitlist";
 import WaitlistCounter from "../components/WaitlistCounter";
 import JoinWaitlistForm from "../components/JoinWaitlistForm";
