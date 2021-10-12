@@ -18,6 +18,11 @@ const links: Link[] = [
     description: "Support email",
     href: "mailto:support@polygon.am",
   },
+  {
+    target: "_blank",
+    description: "Join our Discord server!",
+    href: "https://discord.gg/tExw2XqgtU"
+  }
 ];
 
 const Links = () => {
