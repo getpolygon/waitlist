@@ -29,7 +29,7 @@ const Links = () => {
   return (
     <Box>
       <Center>
-        <Stack justifyContent={"center"} direction={["column", null, "row"]}>
+        <Stack direction={["column", null, "row"]}>
           {links.map((link) => (
             <Link
               key={link.href}
