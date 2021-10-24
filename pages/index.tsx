@@ -4,7 +4,7 @@ import cookies from "next-cookies";
 import splitbee from "@splitbee/web";
 import { collection, getDocs } from "firebase/firestore";
 import type { GetServerSideProps, NextPage } from "next";
-import { Box, Flex, Text, Stack } from "@chakra-ui/react";
+import { Box, Flex, Text, Stack, Alert, Center } from "@chakra-ui/react";
 
 import Links from "../components/Links";
 import { firestore } from "../utils/firebase";
@@ -97,37 +97,55 @@ const Home: NextPage<Props> = ({ count, joined: __joined }) => {
         />
       </Head>
 
-      <Flex p={4} h={"100vh"} alignItems={"center"} justifyContent={"center"}>
-        <Box maxW={"xl"}>
-          <Stack spacing={6}>
-            <Box userSelect={"none"}>
-              <Text
-                fontSize={"6xl"}
-                color={"purple.400"}
-                fontFamily={"ubuntu"}
-                fontWeight={"semibold"}
-              >
-                Polygon
-              </Text>
-
-              <Text fontFamily={"ubuntu"} fontSize={"lg"}>
-                A new, modern and private social network that is not hungry for
-                your data. Coming soon.
-              </Text>
-            </Box>
-
-            <WaitlistCounter count={count} />
-
-            {joined ? (
-              <JoinedWaitlist />
-            ) : (
-              <JoinWaitlistForm setJoined={setJoined} />
-            )}
-
-            <Links />
-          </Stack>
+      <Box>
+        <Box top={0} position={"relative"}>
+          <Alert variant={"top-accent"} colorScheme={"purple"}>
+            <Text fontSize={"lg"} fontWeight={"semibold"}>
+              Polygon becomes open-source after being maintained privately for
+              more than a year!
+            </Text>
+          </Alert>
         </Box>
-      </Flex>
+
+        <Box mt={[-4, -8, -14]}>
+          <Flex
+            p={4}
+            h={"100vh"}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <Box maxW={"xl"}>
+              <Stack spacing={6}>
+                <Box userSelect={"none"}>
+                  <Text
+                    fontSize={"6xl"}
+                    color={"purple.400"}
+                    fontFamily={"ubuntu"}
+                    fontWeight={"semibold"}
+                  >
+                    Polygon
+                  </Text>
+
+                  <Text fontFamily={"ubuntu"} fontSize={"lg"}>
+                    A new, modern and private social network that is not hungry
+                    for your data. Coming soon.
+                  </Text>
+                </Box>
+
+                <WaitlistCounter count={count} />
+
+                {joined ? (
+                  <JoinedWaitlist />
+                ) : (
+                  <JoinWaitlistForm setJoined={setJoined} />
+                )}
+
+                <Links />
+              </Stack>
+            </Box>
+          </Flex>
+        </Box>
+      </Box>
     </>
   );
 };

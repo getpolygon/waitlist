@@ -20,10 +20,15 @@ const links: Link[] = [
   },
   {
     target: "_blank",
-    description: "Join our Discord server!",
-    href: "https://discord.gg/tExw2XqgtU"
-  }
-];
+    description: "Discord chat",
+    href: "https://discord.gg/tExw2XqgtU",
+  },
+  {
+    target: "_blank",
+    description: "GitHub",
+    href: "https://github.com/polygon-isecure/",
+  },
+].reverse();
 
 const Links = () => {
   return (
