@@ -1,12 +1,20 @@
 import { serialize } from "cookie";
 import { NextApiHandler } from "next";
+import { courier } from "../../utils/courier";
 import { firestore } from "../../utils/firebase";
 import Response, { Status } from "../../utils/Response";
 import { email as emailPattern } from "../../utils/patterns";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
-const { NODE_ENV: env } = process.env;
-const collectionName = env === "production" ? "waitlist" : "waitlist-dev";
+const {
+  SMTP_HOST: smtpHost,
+  SMTP_PORT: smtpPort,
+  SMTP_USER: smtpUser,
+  SMTP_PASS: smtpPass,
+} = process.env;
+const { FIREBASE_COLLECTION_NAME: collectionName } = process.env;
+const { COURIER_BRAND_ID: courierBrand, COURIER_EVENT_ID: courierEvent } =
+  process.env;
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
@@ -21,7 +29,7 @@ const handler: NextApiHandler = async (req, res) => {
         try {
           // Checking if another entry with this email exists
           const existingDocQuery = query(
-            collection(firestore, collectionName),
+            collection(firestore, collectionName!!),
             where("email", "==", email)
           );
           const existingDocSnap = await getDocs(existingDocQuery);
@@ -33,9 +41,36 @@ const handler: NextApiHandler = async (req, res) => {
               .json(Response(Status.OK, "This email was already registered"));
           } else {
             // Add the document to firestore
-            await addDoc(collection(firestore, collectionName), {
+            await addDoc(collection(firestore, collectionName!!), {
               email,
             });
+
+            try {
+              // Send an email
+              await courier.send({
+                brand: courierBrand!!,
+                eventId: courierEvent!!,
+                recipientId: email,
+                profile: {
+                  email,
+                },
+                override: {
+                  smtp: {
+                    config: {
+                      auth: {
+                        user: smtpUser!!,
+                        pass: smtpPass!!,
+                      },
+                      host: smtpHost!!,
+                      secure: true,
+                      port: Number(smtpPort!!),
+                    },
+                  },
+                },
+              });
+            } catch (error) {
+              console.error(error);
+            }
 
             return res
               .status(200)
@@ -47,7 +82,6 @@ const handler: NextApiHandler = async (req, res) => {
           }
         } catch (error) {
           console.error(error);
-
           return res
             .status(500)
             .json(Response(Status.ERR, "There was an error"));

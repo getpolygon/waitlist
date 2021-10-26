@@ -4,7 +4,7 @@ import cookies from "next-cookies";
 import splitbee from "@splitbee/web";
 import { collection, getDocs } from "firebase/firestore";
 import type { GetServerSideProps, NextPage } from "next";
-import { Box, Flex, Text, Stack, Alert, Center } from "@chakra-ui/react";
+import { Box, Flex, Text, Stack, Alert } from "@chakra-ui/react";
 
 import Links from "../components/Links";
 import { firestore } from "../utils/firebase";
@@ -28,10 +28,12 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const { joined } = cookies(ctx);
-  const { NODE_ENV: env } = process.env;
+  const { FIREBASE_COLLECTION_NAME: collectionName } = process.env;
+
   const { size: count } = await getDocs(
-    collection(firestore, env === "production" ? "waitlist" : "waitlist-dev")
+    collection(firestore, collectionName!!)
   );
+
   return {
     props: {
       count,

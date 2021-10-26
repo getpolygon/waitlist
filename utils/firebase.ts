@@ -1,4 +1,6 @@
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { signInAnonymously } from "@firebase/auth";
 import { initializeApp, FirebaseOptions } from "firebase/app";
 
 const {
@@ -20,4 +22,7 @@ const config: FirebaseOptions = {
 };
 
 export const app = initializeApp(config);
+export const authentication = getAuth(app);
 export const firestore = getFirestore(app);
+
+signInAnonymously(authentication).catch((error) => console.error(error));

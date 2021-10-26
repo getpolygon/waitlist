@@ -12,6 +12,7 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@splitbee/web": "^0.2.4",
+    "@trycourier/courier": "^2.7.0",
     "cookie": "^0.4.1",
     "firebase": "^9.0.2",
     "framer-motion": "^4",
