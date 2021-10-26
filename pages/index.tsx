@@ -81,22 +81,6 @@ const Home: NextPage<Props> = ({ count, joined: __joined }) => {
           property={"twitter:image"}
           content={"https://polygon.am/banner.png"}
         />
-
-        <link rel={"preconnect"} href={"https://fonts.googleapis.com"} />
-        <link
-          crossOrigin={""}
-          rel={"preconnect"}
-          href={"https://fonts.gstatic.com"}
-        />
-        <link
-          as={"font"}
-          rel={"preload"}
-          href={"https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"}
-        />
-        <link
-          rel={"stylesheet"}
-          href={"https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"}
-        />
       </Head>
 
       <Box>

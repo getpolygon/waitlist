@@ -43,6 +43,7 @@ const handler: NextApiHandler = async (req, res) => {
             // Add the document to firestore
             await addDoc(collection(firestore, collectionName!!), {
               email,
+              createdAt: new Date(),
             });
 
             try {

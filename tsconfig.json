@@ -1,19 +1,26 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "esModuleInterop": true,
+    "allowJs": true,
+    "target": "es5",
+    "jsx": "preserve",
     "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "alwaysStrict": true,
+    "skipLibCheck": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "esModuleInterop": true,
+    "inlineSourceMap": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tools/migrator/index.js"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    "tools/migrator/index.js"
+  ],
   "exclude": ["node_modules"]
 }
