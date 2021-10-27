@@ -77,7 +77,7 @@ const JoinWaitlistForm = ({
       <form
         autoCorrect={"off"}
         autoComplete={"off"}
-        autoCapitalize={"off"}
+        autoCapitalize={"none"}
         onSubmit={handleSubmit(joinWaitlist)}
       >
         <Stack>

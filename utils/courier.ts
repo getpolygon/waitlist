@@ -1,3 +1,3 @@
 import { CourierClient } from "@trycourier/courier";
-const { COURIER_TOKEN: authorizationToken } = process.env;
+const authorizationToken = process.env.COURIER_TOKEN;
 export const courier = CourierClient({ authorizationToken });

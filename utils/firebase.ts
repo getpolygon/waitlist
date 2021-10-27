@@ -1,16 +1,13 @@
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { signInAnonymously } from "@firebase/auth";
 import { initializeApp, FirebaseOptions } from "firebase/app";
 
-const {
-  FIREBASE_APP_ID: appId,
-  FIREBASE_API_KEY: apiKey,
-  FIREBASE_PROJECT_ID: projectId,
-  FIREBASE_AUTH_DOMAIN: authDomain,
-  FIREBASE_STORAGE_BUCKET: storageBucket,
-  FIREBASE_MESSAGING_SENDER_ID: messagingSenderId,
-} = process.env;
+const appId = process.env.NEXT_PUBLIC_FIREBASE_APP_ID;
+const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+const authDomain = process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN;
+const storageBucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
+const messagingSenderId = process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID;
 
 const config: FirebaseOptions = {
   appId,
@@ -24,5 +21,3 @@ const config: FirebaseOptions = {
 export const app = initializeApp(config);
 export const authentication = getAuth(app);
 export const firestore = getFirestore(app);
-
-signInAnonymously(authentication).catch((error) => console.error(error));

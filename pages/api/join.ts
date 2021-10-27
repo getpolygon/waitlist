@@ -6,15 +6,13 @@ import Response, { Status } from "../../utils/Response";
 import { email as emailPattern } from "../../utils/patterns";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
-const {
-  SMTP_HOST: smtpHost,
-  SMTP_PORT: smtpPort,
-  SMTP_USER: smtpUser,
-  SMTP_PASS: smtpPass,
-} = process.env;
-const { FIREBASE_COLLECTION_NAME: collectionName } = process.env;
-const { COURIER_BRAND_ID: courierBrand, COURIER_EVENT_ID: courierEvent } =
-  process.env;
+const smtpHost = process.env.SMTP_HOST;
+const smtpPort = process.env.SMTP_PORT;
+const smtpUser = process.env.SMTP_USER;
+const smtpPass = process.env.SMTP_PASS;
+const courierBrand = process.env.COURIER_BRAND_ID;
+const courierEvent = process.env.COURIER_EVENT_ID;
+const collectionName = process.env.FIREBASE_COLLECTION_NAME;
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {

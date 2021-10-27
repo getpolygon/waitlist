@@ -2,6 +2,8 @@ import Head from "next/head";
 import { useState } from "react";
 import cookies from "next-cookies";
 import splitbee from "@splitbee/web";
+import { signInAnonymously } from "@firebase/auth";
+import { authentication } from "../utils/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import type { GetServerSideProps, NextPage } from "next";
 import { Box, Flex, Text, Stack, Alert } from "@chakra-ui/react";
@@ -26,9 +28,11 @@ type Props = {
   joined: boolean;
 };
 
+signInAnonymously(authentication).catch((error) => console.error(error));
+
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const { joined } = cookies(ctx);
-  const { FIREBASE_COLLECTION_NAME: collectionName } = process.env;
+  const collectionName = process.env.FIREBASE_COLLECTION_NAME;
 
   const { size: count } = await getDocs(
     collection(firestore, collectionName!!)
