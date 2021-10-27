@@ -1,34 +1,20 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import cookies from "next-cookies";
-import splitbee from "@splitbee/web";
-import { signInAnonymously } from "@firebase/auth";
-import { authentication } from "../utils/firebase";
+import Links from "../components/Links";
+import splitbee from "../utils/splitbee";
+import { firestore } from "../utils/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import type { GetServerSideProps, NextPage } from "next";
-import { Box, Flex, Text, Stack, Alert } from "@chakra-ui/react";
-
-import Links from "../components/Links";
-import { firestore } from "../utils/firebase";
 import JoinedWaitlist from "../components/JoinedWaitlist";
 import WaitlistCounter from "../components/WaitlistCounter";
 import JoinWaitlistForm from "../components/JoinWaitlistForm";
-
-const { NEXT_PUBLIC_SPLITBEE_TOKEN: splitbeeToken } = process.env;
-
-splitbee.init({
-  disableCookie: true,
-  token: splitbeeToken,
-});
-
-splitbee.track("Visits");
+import { Box, Flex, Text, Stack, Alert } from "@chakra-ui/react";
 
 type Props = {
   count: number;
   joined: boolean;
 };
-
-signInAnonymously(authentication).catch((error) => console.error(error));
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const { joined } = cookies(ctx);
@@ -49,42 +35,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 const Home: NextPage<Props> = ({ count, joined: __joined }) => {
   const [joined, setJoined] = useState<boolean>(__joined);
 
+  useEffect(() => {
+    splitbee.track("Visits");
+  }, []);
+
   return (
     <>
       <Head>
         <title>Polygon — Coming Soon</title>
-        <meta name={"title"} content={"Polygon — Coming Soon"} />
-        <meta
-          name={"description"}
-          content={
-            "A new, modern, and private social network that is not hungry for your data"
-          }
-        />
-
-        <meta property={"og:type"} content={"website"} />
-        <meta property={"og:url"} content={"https://polygon.am/"} />
-        <meta property={"og:title"} content={"Polygon — Coming Soon"} />
-        <meta property={"og:image"} content={"https://polygon.am/banner.png"} />
-        <meta
-          property={"og:description"}
-          content={
-            "A new, modern, and private social network that is not hungry for your data"
-          }
-        />
-
-        <meta property={"twitter:url"} content={"https://polygon.am/"} />
-        <meta property={"twitter:card"} content={"summary_large_image"} />
-        <meta property={"twitter:title"} content={"Polygon — Coming Soon"} />
-        <meta
-          property={"twitter:description"}
-          content={
-            "A new, modern, and private social network that is not hungry for your data"
-          }
-        />
-        <meta
-          property={"twitter:image"}
-          content={"https://polygon.am/banner.png"}
-        />
       </Head>
 
       <Box>

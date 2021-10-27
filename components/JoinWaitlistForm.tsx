@@ -29,12 +29,14 @@ const JoinWaitlistForm = ({
     duration: 5000,
     position: "bottom",
   });
+
   const {
     register,
     setError,
     handleSubmit,
     formState: { errors },
   } = useForm<WaitlistFormFields>();
+
   const [submitting, setSubmitting] = useState(false);
 
   const joinWaitlist = async ({ email }: WaitlistFormFields) => {
@@ -52,24 +54,25 @@ const JoinWaitlistForm = ({
         status: "OK" | "ERR";
         message: string;
       };
+
       if (response.status !== 500) {
-        setError("email", { message: jsonResponse.message });
+        return setError("email", { message: jsonResponse.message });
       }
-      if (response.status === 500) {
-        return toast({
-          status: "error",
-          title: "There was an error",
-          description: jsonResponse.message,
-        });
-      }
-    } else {
-      setJoined(true);
+
       return toast({
-        status: "success",
-        title: "Thank you 🥳",
-        description: "You have successfully joined our waitlist!",
+        status: "error",
+        title: "There was an error",
+        description: jsonResponse.message,
       });
     }
+
+    setJoined(true);
+
+    return toast({
+      status: "success",
+      title: "Thank you 🥳",
+      description: "You have successfully joined our waitlist!",
+    });
   };
 
   return (

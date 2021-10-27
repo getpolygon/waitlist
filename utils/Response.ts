@@ -1,6 +1,6 @@
 export enum Status {
-  OK,
-  ERR,
+  OK = "OK",
+  ERR = "ERR",
 }
 
 const Response = (status: Status, message: string) => ({ status, message });

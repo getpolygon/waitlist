@@ -18,76 +18,77 @@ const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
     const { email } = JSON.parse(req.body);
 
+    // If email was not provided
     if (!email) {
       return res
         .status(400)
         .json(Response(Status.ERR, "Email was not provided"));
-    } else {
-      if (emailPattern.exec(email)) {
-        try {
-          // Checking if another entry with this email exists
-          const existingDocQuery = query(
+    }
+
+    // If the email is valid
+    if (emailPattern.exec(email)) {
+      try {
+        // Querying the document
+        const existingDocSnapshot = await getDocs(
+          query(
             collection(firestore, collectionName!!),
             where("email", "==", email)
-          );
-          const existingDocSnap = await getDocs(existingDocQuery);
+          )
+        );
 
-          // If there is an entry with this email
-          if (existingDocSnap.size === 1) {
-            return res
-              .status(403)
-              .json(Response(Status.OK, "This email was already registered"));
-          } else {
-            // Add the document to firestore
-            await addDoc(collection(firestore, collectionName!!), {
-              email,
-              createdAt: new Date(),
-            });
-
-            try {
-              // Send an email
-              await courier.send({
-                brand: courierBrand!!,
-                eventId: courierEvent!!,
-                recipientId: email,
-                profile: {
-                  email,
-                },
-                override: {
-                  smtp: {
-                    config: {
-                      auth: {
-                        user: smtpUser!!,
-                        pass: smtpPass!!,
-                      },
-                      host: smtpHost!!,
-                      secure: true,
-                      port: Number(smtpPort!!),
-                    },
-                  },
-                },
-              });
-            } catch (error) {
-              console.error(error);
-            }
-
-            return res
-              .status(200)
-              .setHeader(
-                "Set-Cookie",
-                serialize("joined", "true", { path: "/" })
-              )
-              .json(Response(Status.OK, "Successfully joined the waitlist"));
-          }
-        } catch (error) {
-          console.error(error);
+        // If there is an entry with the specified email
+        if (!existingDocSnapshot.empty) {
           return res
-            .status(500)
-            .json(Response(Status.ERR, "There was an error"));
+            .status(403)
+            .json(Response(Status.OK, "This email was already registered"));
         }
-      } else return res.status(400).json(Response(Status.ERR, "Invalid email"));
+
+        // Add the document to firestore
+        await addDoc(collection(firestore, collectionName!!), {
+          email,
+          createdAt: new Date(),
+        });
+
+        // Send an email
+        await courier.send({
+          brand: courierBrand!!,
+          eventId: courierEvent!!,
+          recipientId: email,
+          profile: {
+            email,
+          },
+          override: {
+            smtp: {
+              config: {
+                auth: {
+                  user: smtpUser!!,
+                  pass: smtpPass!!,
+                },
+                host: smtpHost!!,
+                secure: true,
+                port: Number(smtpPort!!),
+              },
+            },
+          },
+        });
+
+        return res
+          .status(200)
+          .setHeader("Set-Cookie", serialize("joined", "true", { path: "/" }))
+          .json(Response(Status.OK, "Successfully joined the waitlist"));
+      } catch (error: any) {
+        console.error({ error });
+        // Internal server error
+        return res.status(500).json(Response(Status.ERR, "There was an error"));
+      }
     }
-  } else return res.status(404).json(Response(Status.ERR, "Not Found"));
+
+    // If the email is invalid
+    return res.status(400).json(Response(Status.ERR, "Invalid email"));
+  }
+
+  // No matching HTTP method
+  return res.status(404).json(Response(Status.ERR, "Not Found"));
 };
 
 export default handler;

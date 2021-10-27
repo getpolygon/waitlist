@@ -4,6 +4,7 @@ const config: ThemeConfig = {
   initialColorMode: "dark",
   useSystemColorMode: false,
 };
+
 const theme = extendTheme({
   config,
 });
