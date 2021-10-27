@@ -1,8 +1,4 @@
-import { authentication } from "../utils/firebase";
-import { signInAnonymously } from "@firebase/auth";
 import { Html, Head, Main, NextScript } from "next/document";
-
-signInAnonymously(authentication).catch((error) => console.error(error));
 
 const Document = () => {
   return (
