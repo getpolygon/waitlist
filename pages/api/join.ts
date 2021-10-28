@@ -1,10 +1,11 @@
 import { serialize } from "cookie";
 import { NextApiHandler } from "next";
 import { courier } from "../../utils/courier";
-import { firestore } from "../../utils/firebase";
+import { authentication, firestore } from "../../utils/firebase";
 import Response, { Status } from "../../utils/Response";
 import { email as emailPattern } from "../../utils/patterns";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+import { signInAnonymously } from "@firebase/auth";
 
 const smtpHost = process.env.SMTP_HOST;
 const smtpPort = process.env.SMTP_PORT;
@@ -28,6 +29,12 @@ const handler: NextApiHandler = async (req, res) => {
     // If the email is valid
     if (emailPattern.exec(email)) {
       try {
+        try {
+          await signInAnonymously(authentication);
+        } catch (error) {
+          console.error(error);
+        }
+
         // Querying the document
         const existingDocSnapshot = await getDocs(
           query(

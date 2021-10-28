@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import cookies from "next-cookies";
 import Links from "../components/Links";
 import splitbee from "../utils/splitbee";
-import { firestore } from "../utils/firebase";
+import { authentication, firestore } from "../utils/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import type { GetServerSideProps, NextPage } from "next";
 import JoinedWaitlist from "../components/JoinedWaitlist";
 import WaitlistCounter from "../components/WaitlistCounter";
 import JoinWaitlistForm from "../components/JoinWaitlistForm";
 import { Box, Flex, Text, Stack, Alert } from "@chakra-ui/react";
+import { signInAnonymously } from "@firebase/auth";
 
 type Props = {
   count: number;
@@ -19,6 +20,12 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const { joined } = cookies(ctx);
   const collectionName = process.env.FIREBASE_COLLECTION_NAME;
+
+  try {
+    await signInAnonymously(authentication);
+  } catch (error) {
+    console.error(error);
+  }
 
   const { size: count } = await getDocs(
     collection(firestore, collectionName!!)
