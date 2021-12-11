@@ -112,8 +112,8 @@ const Release = ({ release }: ReleaseProps) => {
 
         <Box>
           <chakra.span fontWeight={"semibold"}>
-            <Stack spacing={1} direction={"row"}>
-              <Box>release author</Box>
+            <Stack spacing={[0, 1]} direction={["column", "row"]}>
+              <Box>Release author:</Box>
 
               <chakra.a href={release.author.html_url}>
                 <Stack spacing={1} direction={"row"}>
