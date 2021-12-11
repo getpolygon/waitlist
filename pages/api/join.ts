@@ -1,6 +1,6 @@
-import { isEqual, isNil } from "lodash";
 import { serialize } from "cookie";
 import { NextApiHandler } from "next";
+import { isEqual, isNil } from "lodash";
 import { courier } from "../../utils/courier";
 import { signInAnonymously } from "@firebase/auth";
 import Response, { Status } from "../../utils/Response";
@@ -19,7 +19,7 @@ const collectionName = process.env.FIREBASE_COLLECTION_NAME;
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
-    const { email } = JSON.parse(req.body);
+    const { email } = req.body;
 
     // If email was not provided
     if (isNil(email)) {

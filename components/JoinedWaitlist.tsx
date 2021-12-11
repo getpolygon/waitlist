@@ -6,7 +6,6 @@ const JoinedWaitlist = () => {
     <Box
       p={4}
       rounded={"xl"}
-      userSelect={"none"}
       border={"2px solid"}
       bgColor={"purple.500"}
       borderColor={"purple.500"}

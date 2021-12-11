@@ -3,14 +3,8 @@ import { Text, chakra, Box } from "@chakra-ui/react";
 
 const WaitlistCounter = ({ count }: { count: number }) => {
   return (
-    <Box
-      p={4}
-      rounded={"xl"}
-      userSelect={"none"}
-      border={"2px solid"}
-      borderColor={"purple.500"}
-    >
-      <Text userSelect={"none"} fontSize={"lg"}>
+    <Box p={4} rounded={"xl"} border={"2px solid"} borderColor={"purple.500"}>
+      <Text fontSize={"lg"}>
         {count > 0 ? (
           <>
             <chakra.span color={"purple.400"} fontWeight={"bold"}>

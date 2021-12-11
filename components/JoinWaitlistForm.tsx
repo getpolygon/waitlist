@@ -11,57 +11,46 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { useState } from "react";
 import { IoMail } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { email } from "../utils/patterns";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useJoinedStore } from "../stores/useJoinedStore";
 
 type WaitlistFormFields = {
   email: string;
 };
 
-const JoinWaitlistForm = ({
-  setJoined,
-}: {
-  setJoined: Dispatch<SetStateAction<boolean>>;
-}) => {
-  const toast = useToast({
-    duration: 5000,
-    position: "bottom",
-  });
-
+const JoinWaitlistForm = () => {
   const {
     register,
     setError,
     handleSubmit,
     formState: { errors },
   } = useForm<WaitlistFormFields>();
-
   const [submitting, setSubmitting] = useState(false);
+  const setJoined = useJoinedStore((state) => state.setJoined);
+  // prettier-ignore
+  const toast = useToast({ duration: 5000, position: "bottom" });
 
   const joinWaitlist = async ({ email }: WaitlistFormFields) => {
     setSubmitting(true);
 
-    const response = await fetch("/api/join", {
-      method: "POST",
-      body: JSON.stringify({ email }),
-    });
+    // prettier-ignore
+    const { data, status } = await axios.post("/api/join", { email }, { validateStatus: () => true });
 
     setSubmitting(false);
 
-    if (response.status !== 200) {
-      const jsonResponse = (await response.json()) as {
-        status: "OK" | "ERR";
-        message: string;
-      };
-
-      if (response.status !== 500)
-        return setError("email", { message: jsonResponse.message });
+    if (status !== 200) {
+      if (status !== 500) {
+        return setError("email", { message: data.message });
+      }
 
       return toast({
         status: "error",
+        description: data.message,
         title: "There was an error",
-        description: jsonResponse.message,
       });
     }
 

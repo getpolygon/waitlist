@@ -16,11 +16,11 @@ import {
   chakra,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { useEffect } from "react";
 import cookies from "next-cookies";
 import { NextSeo } from "next-seo";
 import Links from "../components/Links";
 import splitbee from "../utils/splitbee";
-import { useEffect, useState } from "react";
 import { signInAnonymously } from "@firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import type { GetServerSideProps, NextPage } from "next";
@@ -28,7 +28,7 @@ import JoinedWaitlist from "../components/JoinedWaitlist";
 import WaitlistCounter from "../components/WaitlistCounter";
 import JoinWaitlistForm from "../components/JoinWaitlistForm";
 import { authentication, firestore } from "../utils/firebase";
-import { GithubRelease, ReleaseList } from "../components/ReleaseList";
+import { GithubRelease, MemoizedReleaseList } from "../components/ReleaseList";
 
 interface HomeProps {
   count: number;
@@ -36,9 +36,8 @@ interface HomeProps {
   releases: GithubRelease[];
 }
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async (
-  ctx
-) => {
+// prettier-ignore
+export const getServerSideProps: GetServerSideProps<HomeProps> = async (ctx) => {
   const { joined } = cookies(ctx);
   const collectionName = process.env.FIREBASE_COLLECTION_NAME;
 
@@ -60,9 +59,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
   };
 };
 
-const Home: NextPage<HomeProps> = ({ count, joined: __joined, releases }) => {
-  const [joined, setJoined] = useState<boolean>(__joined);
-
+const Home: NextPage<HomeProps> = ({ count, joined, releases }) => {
   useEffect(() => {
     splitbee.track("visits");
   }, []);
@@ -88,7 +85,7 @@ const Home: NextPage<HomeProps> = ({ count, joined: __joined, releases }) => {
 
       <Box h={"100vh"}>
         <Box top={0} position={"relative"}>
-          <Alert variant={"top-accent"} colorScheme={"purple"}>
+          <Alert variant={"solid"} colorScheme={"purple"}>
             <Text fontSize={"lg"} fontWeight={"semibold"}>
               Polygon becomes open-source after being maintained privately for
               more than a year!
@@ -100,7 +97,7 @@ const Home: NextPage<HomeProps> = ({ count, joined: __joined, releases }) => {
           <Flex p={4} alignItems={"center"} justifyContent={"center"}>
             <Box maxW={"xl"}>
               <Stack spacing={6}>
-                <Box userSelect={"none"}>
+                <Box>
                   <Text
                     fontSize={"6xl"}
                     color={"purple.400"}
@@ -115,19 +112,19 @@ const Home: NextPage<HomeProps> = ({ count, joined: __joined, releases }) => {
                   </Text>
                 </Box>
 
+                {/* Number of people that joined the waitlist */}
                 <WaitlistCounter count={count} />
 
-                {joined ? (
-                  <JoinedWaitlist />
-                ) : (
-                  <JoinWaitlistForm setJoined={setJoined} />
-                )}
+                {joined ? <JoinedWaitlist /> : <JoinWaitlistForm />}
 
+                {/* Related links */}
                 <Links />
+
                 <Divider />
 
                 <Box>
                   <Stack spacing={4}>
+                    {/* Link with keyboard style */}
                     <Text fontWeight={"bold"} fontSize={"2xl"}>
                       <chakra.a
                         color={"purple.200"}
@@ -138,7 +135,8 @@ const Home: NextPage<HomeProps> = ({ count, joined: __joined, releases }) => {
                       releases
                     </Text>
 
-                    <ReleaseList releases={releases} />
+                    {/* For displaying the list of GitHub releases */}
+                    <MemoizedReleaseList releases={releases} />
                   </Stack>
                 </Box>
               </Stack>

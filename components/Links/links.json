@@ -1,0 +1,22 @@
+[
+  {
+    "target": "_blank",
+    "description": "Website Analytics",
+    "href": "https://app.splitbee.io/public/polygon.am"
+  },
+  {
+    "target": "_blank",
+    "description": "Support email",
+    "href": "mailto:support@polygon.am"
+  },
+  {
+    "target": "_blank",
+    "description": "Discord server",
+    "href": "https://discord.gg/tExw2XqgtU"
+  },
+  {
+    "target": "_blank",
+    "description": "GitHub",
+    "href": "https://github.com/polygon-isecure/"
+  }
+]

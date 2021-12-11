@@ -155,7 +155,7 @@ const Release = ({ release }: ReleaseProps) => {
 
 const MemoizedRelease = memo(Release);
 
-export const ReleaseList = ({ releases }: ReleaseListProps) => {
+const ReleaseList = ({ releases }: ReleaseListProps) => {
   return (
     <Box pb={8}>
       <Stack spacing={4}>
@@ -175,3 +175,5 @@ export const ReleaseList = ({ releases }: ReleaseListProps) => {
     </Box>
   );
 };
+
+export const MemoizedReleaseList = memo(ReleaseList);
