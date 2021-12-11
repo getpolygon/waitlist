@@ -1,34 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Polygon
 
-## Getting Started
+Polygon is an upcoming open-source & privacy-oriented social network that is not hungry for your data. This repository contains the source code for the [waitlist website](https://polygon.am/) of Polygon
 
-First, run the development server:
+## Contributor guide
 
-```bash
-npm run dev
-# or
-yarn dev
+To contribute to the waitlist of polygon you will need to have the following:
+
+- [Firebase](https://firebase.com/) account. **(Free)**
+    - You will need to enable anonymous [Firebase Authentication](https://firebase.google.com/docs/auth) and create a new [Firestore Database](https://firebase.google.com/docs/firestore) from the Firebase control panel
+- [Courier](https://courier.com/) account. **(Free)**
+    - Make sure to [create a brand](https://help.courier.com/en/articles/4181342-customize-your-default-brand) at Courier.
+    - Make sure to [create an event](https://help.courier.com/en/articles/4202416-how-to-create-and-map-event-triggers-for-your-notifications) at Courier.
+- [Splitbee](https://splitbee.io/) account. **(Free)** | **(Optional)**
+- [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) configuration from your email provider.  **(Free / Paid)**
+
+After completing the steps above, make sure to create a `.env.local` file in project root.
+
+Environment configuration for Firebase:
+```txt
+NEXT_PUBLIC_FIREBASE_APP_ID="firebase app id"
+NEXT_PUBLIC_FIREBASE_API_KEY="firebase api key"
+NEXT_PUBLIC_FIREBASE_PROJECT_ID="firebase project id"
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="firebase auth domain"
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="firebase storage bucket"
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="firebase messaging sender id"
+FIREBASE_COLLECTION_NAME="firebase collection name to store records in"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+for Courier:
+```
+COURIER_TOKEN="courier api token"
+COURIER_BRAND_ID="courier brand id"
+COURIER_EVENT_ID="courier event id"
+```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+for SMTP:
+```
+SMTP_PORT=123
+SMTP_PASS="somepassword"
+SMTP_USER="someone@polygon.am"
+SMTP_HOST="smtp.yourdomain.com"
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+for Splitbee (Optional):
+```
+# Splitbee configuration (Optional)
+# NEXT_PUBLIC_SPLITBEE_TOKEN="splitbee token"
+```
