@@ -1,12 +1,14 @@
+import { isEqual, isNil } from "lodash";
 import { serialize } from "cookie";
 import { NextApiHandler } from "next";
 import { courier } from "../../utils/courier";
-import { authentication, firestore } from "../../utils/firebase";
+import { signInAnonymously } from "@firebase/auth";
 import Response, { Status } from "../../utils/Response";
 import { email as emailPattern } from "../../utils/patterns";
+import { authentication, firestore } from "../../utils/firebase";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
-import { signInAnonymously } from "@firebase/auth";
 
+const nodeEnv = process.env.NODE_ENV;
 const smtpHost = process.env.SMTP_HOST;
 const smtpPort = process.env.SMTP_PORT;
 const smtpUser = process.env.SMTP_USER;
@@ -20,7 +22,7 @@ const handler: NextApiHandler = async (req, res) => {
     const { email } = JSON.parse(req.body);
 
     // If email was not provided
-    if (!email) {
+    if (isNil(email)) {
       return res
         .status(400)
         .json(Response(Status.ERR, "Email was not provided"));
@@ -29,19 +31,11 @@ const handler: NextApiHandler = async (req, res) => {
     // If the email is valid
     if (emailPattern.exec(email)) {
       try {
-        try {
-          await signInAnonymously(authentication);
-        } catch (error) {
-          console.error(error);
-        }
+        await signInAnonymously(authentication);
 
         // Querying the document
-        const existingDocSnapshot = await getDocs(
-          query(
-            collection(firestore, collectionName!!),
-            where("email", "==", email)
-          )
-        );
+        // prettier-ignore
+        const existingDocSnapshot = await getDocs(query(collection(firestore, collectionName!!), where("email", "==", email)));
 
         // If there is an entry with the specified email
         if (!existingDocSnapshot.empty) {
@@ -51,40 +45,41 @@ const handler: NextApiHandler = async (req, res) => {
         }
 
         // Add the document to firestore
-        await addDoc(collection(firestore, collectionName!!), {
-          email,
-          createdAt: new Date(),
-        });
+        // prettier-ignore
+        await addDoc(collection(firestore, collectionName!!), { email, createdAt: new Date() });
 
-        // Send an email
-        await courier.send({
-          brand: courierBrand!!,
-          eventId: courierEvent!!,
-          recipientId: email,
-          profile: {
-            email,
-          },
-          override: {
-            smtp: {
-              config: {
-                auth: {
-                  user: smtpUser!!,
-                  pass: smtpPass!!,
+        // Only sending an email in production
+        if (isEqual(nodeEnv, "production")) {
+          // Send an email
+          await courier.send({
+            brand: courierBrand!!,
+            eventId: courierEvent!!,
+            recipientId: email,
+            profile: {
+              email,
+            },
+            override: {
+              smtp: {
+                config: {
+                  auth: {
+                    user: smtpUser!!,
+                    pass: smtpPass!!,
+                  },
+                  host: smtpHost!!,
+                  secure: true,
+                  port: Number(smtpPort!!),
                 },
-                host: smtpHost!!,
-                secure: true,
-                port: Number(smtpPort!!),
               },
             },
-          },
-        });
+          });
+        }
 
         return res
           .status(200)
           .setHeader("Set-Cookie", serialize("joined", "true", { path: "/" }))
           .json(Response(Status.OK, "Successfully joined the waitlist"));
-      } catch (error: any) {
-        console.error({ error });
+      } catch (error) {
+        console.error(error);
         // Internal server error
         return res.status(500).json(Response(Status.ERR, "There was an error"));
       }

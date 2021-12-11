@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { LinkProps } from "@chakra-ui/react";
 import { Box, Stack, Link, Center } from "@chakra-ui/react";
 
@@ -53,4 +54,4 @@ const Links = () => {
   );
 };
 
-export default Links;
+export default memo(Links);

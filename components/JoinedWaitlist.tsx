@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Box, Center, Text } from "@chakra-ui/react";
 
 const JoinedWaitlist = () => {
@@ -11,7 +12,7 @@ const JoinedWaitlist = () => {
       borderColor={"purple.500"}
     >
       <Center>
-        <Text fontFamily={"ubuntu"} fontSize={["md", "lg", "xl"]}>
+        <Text fontSize={["md", "lg", "xl"]}>
           Congrats 🎉, you now are on our waitlist!
         </Text>
       </Center>
@@ -19,4 +20,4 @@ const JoinedWaitlist = () => {
   );
 };
 
-export default JoinedWaitlist;
+export default memo(JoinedWaitlist);

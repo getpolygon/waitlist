@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Text, chakra, Box } from "@chakra-ui/react";
 
 const WaitlistCounter = ({ count }: { count: number }) => {
@@ -9,7 +10,7 @@ const WaitlistCounter = ({ count }: { count: number }) => {
       border={"2px solid"}
       borderColor={"purple.500"}
     >
-      <Text userSelect={"none"} fontFamily={"ubuntu"} fontSize={"lg"}>
+      <Text userSelect={"none"} fontSize={"lg"}>
         {count > 0 ? (
           <>
             <chakra.span color={"purple.400"} fontWeight={"bold"}>
@@ -25,4 +26,4 @@ const WaitlistCounter = ({ count }: { count: number }) => {
   );
 };
 
-export default WaitlistCounter;
+export default memo(WaitlistCounter);

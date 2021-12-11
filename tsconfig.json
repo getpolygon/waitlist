@@ -13,8 +13,13 @@
     "inlineSourceMap": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "forceConsistentCasingInFileNames": true
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true
   },
   "include": [
     "**/*.ts",
@@ -22,5 +27,7 @@
     "next-env.d.ts",
     "tools/migrator/index.js"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

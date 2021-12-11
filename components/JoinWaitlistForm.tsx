@@ -55,9 +55,8 @@ const JoinWaitlistForm = ({
         message: string;
       };
 
-      if (response.status !== 500) {
+      if (response.status !== 500)
         return setError("email", { message: jsonResponse.message });
-      }
 
       return toast({
         status: "error",
@@ -85,14 +84,13 @@ const JoinWaitlistForm = ({
       >
         <Stack>
           <Box>
-            <Text fontFamily={"ubuntu"} fontSize={["md", "lg"]}>
+            <Text fontSize={["md", "lg"]}>
               Want to stay up to date? You can join our waitlist too!
             </Text>
-            <Text fontSize={"xs"}></Text>
           </Box>
 
           <Stack direction={["column", "row"]}>
-            <FormControl maxW={["full", "sm"]} isInvalid={errors.email && true}>
+            <FormControl maxW={"xl"} isInvalid={errors.email && true}>
               <InputGroup>
                 <InputLeftElement
                   h={"full"}
@@ -119,7 +117,7 @@ const JoinWaitlistForm = ({
                 />
               </InputGroup>
 
-              <FormErrorMessage fontFamily={"ubuntu"}>
+              <FormErrorMessage>
                 {(errors.email && errors.email.message) ||
                   "Please enter a valid email address"}
               </FormErrorMessage>
