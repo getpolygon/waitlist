@@ -44,7 +44,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
 
   const [_, { size: count }, { data: releases }] = await Promise.all([
     // Authenticating firebase
-    await signInAnonymously(authentication).catch(console.error),
+    await signInAnonymously(authentication),
     await getDocs(collection(firestore, collectionName!!)),
     // Fetching `core` releases
     // prettier-ignore
