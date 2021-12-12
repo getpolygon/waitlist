@@ -14,13 +14,16 @@ import {
   Divider,
   Kbd,
   chakra,
+  Center,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect } from "react";
 import cookies from "next-cookies";
 import { NextSeo } from "next-seo";
 import Links from "../components/Links";
 import splitbee from "../utils/splitbee";
+import { useEffect, useState } from "react";
 import { signInAnonymously } from "@firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import type { GetServerSideProps, NextPage } from "next";
@@ -33,7 +36,7 @@ import { GithubRelease, MemoizedReleaseList } from "../components/ReleaseList";
 interface HomeProps {
   count: number;
   joined: boolean;
-  releases: GithubRelease[];
+  // releases: GithubRelease[];
 }
 
 // prettier-ignore
@@ -41,27 +44,47 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (ctx) => 
   const { joined } = cookies(ctx);
   const collectionName = process.env.FIREBASE_COLLECTION_NAME;
 
-  const [_, { size: count }, { data: releases }] = await Promise.all([
+  const [_, { size: count }] = await Promise.all([
     // Authenticating firebase
     await signInAnonymously(authentication),
     await getDocs(collection(firestore, collectionName!!)),
-    // Fetching `core` releases
-    // prettier-ignore
-    await axios.get<GithubRelease[]>("https://api.github.com/repos/polygon-isecure/core/releases"),
   ]);
 
   return {
     props: {
       count,
-      releases,
+      // releases,
       joined: JSON.parse(joined!! || (false as any)),
     },
   };
 };
 
-const Home: NextPage<HomeProps> = ({ count, joined, releases }) => {
+const Home: NextPage<HomeProps> = ({ count, joined }) => {
+  const toast = useToast();
+  const [fetching, setFetching] = useState(true);
+  const [releases, setReleases] = useState<GithubRelease[]>([]);
+
   useEffect(() => {
+    // Fetching `core` releases
+    const fetchReleases = async () => {
+      try {
+        const { data } = await axios.get<GithubRelease[]>(
+          "https://api.github.com/repos/polygon-isecure/core/releases"
+        );
+
+        setReleases(data);
+        return setFetching(false);
+      } catch (error) {
+        return toast({
+          status: "error",
+          title: "There was an error",
+          description: "We couldn't fetch the releases of core repository",
+        });
+      }
+    };
+
     splitbee.track("visits");
+    fetchReleases();
   }, []);
 
   return (
@@ -136,7 +159,13 @@ const Home: NextPage<HomeProps> = ({ count, joined, releases }) => {
                     </Text>
 
                     {/* For displaying the list of GitHub releases */}
-                    <MemoizedReleaseList releases={releases} />
+                    {fetching ? (
+                      <Center>
+                        <Spinner colorScheme={"purple"} />
+                      </Center>
+                    ) : (
+                      <MemoizedReleaseList releases={releases} />
+                    )}
                   </Stack>
                 </Box>
               </Stack>
