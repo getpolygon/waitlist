@@ -4,6 +4,7 @@
     "noEmit": true,
     "allowJs": true,
     "target": "es5",
+    "baseUrl": "src",
     "jsx": "preserve",
     "module": "esnext",
     "alwaysStrict": true,
@@ -13,13 +14,15 @@
     "inlineSourceMap": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "forceConsistentCasingInFileNames": true,
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "theme": ["theme"],
+      "utils/*": ["utils/*"],
+      "stores/*": ["stores/*"],
+      "components/*": ["components/*"]
+    }
   },
   "include": [
     "**/*.ts",
@@ -27,7 +30,5 @@
     "next-env.d.ts",
     "tools/migrator/index.js"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
