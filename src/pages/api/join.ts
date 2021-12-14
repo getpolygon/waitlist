@@ -46,27 +46,29 @@ const handler: NextApiHandler = async (req, res) => {
         // Only sending an email in production
         if (isEqual(nodeEnv, "production")) {
           // Send an email
-          await courier.send({
-            brand: courierBrand!!,
-            eventId: courierEvent!!,
-            recipientId: email,
-            profile: {
-              email,
-            },
-            override: {
-              smtp: {
-                config: {
-                  auth: {
-                    user: smtpUser!!,
-                    pass: smtpPass!!,
+          await courier
+            .send({
+              brand: courierBrand!!,
+              eventId: courierEvent!!,
+              recipientId: email,
+              profile: {
+                email,
+              },
+              override: {
+                smtp: {
+                  config: {
+                    auth: {
+                      user: smtpUser!!,
+                      pass: smtpPass!!,
+                    },
+                    secure: true,
+                    host: smtpHost!!,
+                    port: Number(smtpPort!!),
                   },
-                  secure: true,
-                  host: smtpHost!!,
-                  port: Number(smtpPort!!),
                 },
               },
-            },
-          });
+            })
+            .catch(console.error);
         }
 
         return res
