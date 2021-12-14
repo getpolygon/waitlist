@@ -77,7 +77,7 @@ const Home: NextPage<Props> = ({ count, joined: __joined }) => {
 
     fetchCoreReleases();
     splitbee.track("Main page visits");
-  });
+  }, [toast]);
 
   return (
     <>
