@@ -1,7 +1,7 @@
-import { useForm } from "react-hook-form";
-import { useJoinedStore } from "~/stores/useJoinedStore";
-import { Box, Button, FilledInput, FormControl, InputLabel, Stack } from "@mui/material";
-import { useCountStore } from "~/stores/useCountStore";
+import { Box, Button, FilledInput, FormControl, InputLabel, Stack } from "@mui/material"
+import { useForm } from "react-hook-form"
+import { useCountStore } from "~/stores/useCountStore"
+import { useJoinedStore } from "~/stores/useJoinedStore"
 
 interface Fields {
   email: string;
@@ -59,7 +59,7 @@ const JoinWaitlistForm = () => {
 
           <Button
             disabled={!isChanged || !isValid || isSubmitting}
-            variant="contained" type="submit">Submit</Button>
+            variant="contained" type="submit" color="primary">Submit</Button>
         </Stack>
       </form>
     </Box>
