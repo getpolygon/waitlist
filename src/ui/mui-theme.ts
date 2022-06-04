@@ -12,7 +12,8 @@ export const newCustomTheme = (mode: "light" | "dark") => createTheme({
         MuiButton: {
             defaultProps: {
                 style: {
-                    fontWeight: "bolder",
+                    fontWeight: "500",
+                    fontFamily: "Syne"
                 }
             },
         },

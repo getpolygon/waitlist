@@ -64,7 +64,7 @@ const Home: NextPage<Props> = ({ count: __count, joined: __joined }) => {
                 Polygon
               </Typography>
 
-              <Typography sx={{ variant: { sm: "subtitle1", md: "h6" } }} fontWeight="600">
+              <Typography fontWeight="500" sx={{ variant: { sm: "subtitle1", md: "h6" } }}>
                 Polygon Project is an effort to create a fast, scalable, privacy-focused and open social networking protocol.
               </Typography>
             </Stack>
