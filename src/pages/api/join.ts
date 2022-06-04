@@ -35,7 +35,7 @@ const join: NextApiHandler = async (req, res) => {
       try {
         const pg = await Postgres.createOrGet();
         const { rows } = await pg?.query("SELECT * FROM waitlist WHERE email = $1", [req.body.email])!;
-        if (!!rows[0]) {
+        if (rows[0] !== null || rows[0] !== undefined) {
           return res.status(403).json("email is already registered");
         }
 
