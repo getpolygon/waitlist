@@ -11,7 +11,6 @@ To contribute to the waitlist of polygon you will need to have the following:
 - [Courier](https://courier.com/) account. **(Free)**
   - Make sure to [create a brand](https://help.courier.com/en/articles/4181342-customize-your-default-brand) at Courier.
   - Make sure to [create an event](https://help.courier.com/en/articles/4202416-how-to-create-and-map-event-triggers-for-your-notifications) at Courier.
-- [Splitbee](https://splitbee.io/) account. **(Free)** | **(Optional)**
 - [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) configuration from your email provider. **(Free / Paid)**
 
 After completing the steps above, make sure to create a `.env.local` file in project root.
@@ -40,9 +39,3 @@ SMTP_USER="someone@polygon.am"
 SMTP_HOST="smtp.yourdomain.com"
 ```
 
-for Splitbee (Optional):
-
-```
-# Splitbee configuration (Optional)
-# NEXT_PUBLIC_SPLITBEE_TOKEN="splitbee token"
-```
