@@ -8,10 +8,10 @@ const WaitlistCounter = () => {
 
   return (
     <Box>
-      <Typography fontWeight="600" sx={{ fontSize: { sm: "1rem", md: "1.2rem" } }} component="h4">
+      <Typography fontWeight="500" sx={{ fontSize: { sm: "1rem", md: "1.2rem" } }} component="h4">
         {count > 0 ? (
           <>
-            <Box fontWeight="bold" component="span" color="#FFFBDB">{count} {count === 1 ? "person" : "people"}</Box>{joined && ", including yourself,"} {count > 1 ? "have" : "has"} already joined
+            <Box fontWeight="500" component="span" color="#FFFBDB">{count} {count === 1 ? "person" : "people"}</Box>{joined && ", including yourself,"} {count > 1 ? "have" : "has"} already joined
             the waitlist!
           </>
         ) : (
