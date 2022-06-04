@@ -2,7 +2,7 @@ import { createTheme } from "@mui/material";
 
 export const newCustomTheme = (mode: "light" | "dark") => createTheme({
     typography: {
-        fontFamily: "syne",
+        fontFamily: "Syne",
         allVariants: {
             color: "whitesmoke"
         }
@@ -23,7 +23,7 @@ export const newCustomTheme = (mode: "light" | "dark") => createTheme({
     palette: {
         mode,
         primary: {
-            main: "#8CD790",
+            main: "#A379C9",
         },
     },
 });

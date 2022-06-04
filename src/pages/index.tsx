@@ -40,42 +40,49 @@ const Home: NextPage<Props> = ({ count: __count, joined: __joined }) => {
   }, [joined, count]);
 
   return (
-    <>
+    <Box
+      width="100vw"
+      height="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
       <Image
         layout="fill"
         loading="eager"
-        objectFit="cover"
-        src="/bg-static-mesh.jpg"
+        objectFit="fill"
+        src="/images/background.jpg"
         alt="Mesh Gradient Background"
-        style={{ userSelect: "none", zIndex: -1, filter: "brightness(75%)" }}
+        style={{ userSelect: "none", zIndex: -1, filter: "brightness(72%)" }}
       />
 
-      <Box
-        width="100vw"
-        height="100vh"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
+      <Box>
         <Box paddingX="12px" sx={{ width: { sm: "80vw", md: "60vw", lg: "40vw" } }}>
           <Stack spacing={2}>
             <Stack spacing={1}>
-              <Typography fontWeight="800" component="h1" variant="h3">
+              <Typography fontWeight="800" variant="h4">
                 Polygon
               </Typography>
 
-              <Typography fontWeight="500" sx={{ variant: { sm: "subtitle1", md: "h6" } }}>
+              <Typography fontWeight="500">
                 Polygon Project is an effort to create a fast, scalable, privacy-focused and open social networking protocol.
               </Typography>
             </Stack>
 
-            <WaitlistCounter />
+            <Stack spacing={1}>
+              <WaitlistCounter />
+              {!joined && <JoinWaitlistForm />}
+            </Stack>
 
-            {!joined && <JoinWaitlistForm />}
+            <Stack direction="row" spacing={1}></Stack>
+
+            <Typography textAlign="center" variant="caption">
+              &copy; {new Date().getFullYear()} Polygon Project
+            </Typography>
           </Stack>
         </Box>
       </Box>
-    </>
+    </Box>
   );
 };
 
