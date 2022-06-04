@@ -30,7 +30,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
 
         <ThemeProvider theme={theme}>
-          <CssBaseline enableColorScheme />
+          <CssBaseline />
           <Component {...pageProps} />
         </ThemeProvider>
       </React.StrictMode>

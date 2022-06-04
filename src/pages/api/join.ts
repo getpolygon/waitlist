@@ -8,8 +8,8 @@ const smtpHost = process.env.SMTP_HOST;
 const smtpPort = process.env.SMTP_PORT;
 const smtpUser = process.env.SMTP_USER;
 const smtpPass = process.env.SMTP_PASS;
-const courierBrand = process.env.COURIER_BRAND_ID;
-const courierEvent = process.env.COURIER_EVENT_ID;
+const courierBrand = process.env.COURIER_BRAND_ID!;
+const courierEvent = process.env.COURIER_EVENT_ID!;
 const courierOverrides = {
   smtp: {
     config: {
@@ -34,8 +34,8 @@ const join: NextApiHandler = async (req, res) => {
     if (emailPattern.test(email)) {
       try {
         const pg = await Postgres.createOrGet();
-        const { rows } = await pg?.query("SELECT * FROM waitlist WHERE email = $1", [req.body.email])!;
-        if (rows[0] !== null || rows[0] !== undefined) {
+        const { rowCount } = await pg?.query("SELECT * FROM waitlist WHERE email = $1", [req.body.email])!;
+        if (rowCount === 1) {
           return res.status(403).json("email is already registered");
         }
 
@@ -44,7 +44,7 @@ const join: NextApiHandler = async (req, res) => {
         if (process.env.NODE_ENV === "production") {
           try {
             const courier = Courier.createOrGet();
-            await courier.send({ profile: { email }, recipientId: email!, brand: courierBrand!, eventId: courierEvent!, override: courierOverrides });
+            await courier.send({ profile: { email }, recipientId: email, brand: courierBrand, eventId: courierEvent, override: courierOverrides });
           } catch (error) {
             console.error(error);
           }
